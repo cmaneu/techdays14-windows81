@@ -1,0 +1,130 @@
+﻿<Page x:Class="DailyNotes.MainPage" 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+      xmlns:local="using:DailyNotes" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:model="using:DailyNotes.Model" 
+      xmlns:viewModel="using:DailyNotes.ViewModel" 
+      NavigationCacheMode="Required" 
+      mc:Ignorable="d">
+    <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" ZoomMode="Disabled">
+        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type=viewModel:HubViewModel}">
+            <StackPanel.Background>
+                <SolidColorBrush Color="#023644"></SolidColorBrush>
+            </StackPanel.Background>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="700" Background="#FF232323">
+                <Image Stretch="UniformToFill" Source="{Binding AlbumMisEnAvant.Artiste.ArtisteImageUri}" Opacity="1" />
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#E5000000" Offset="1" />
+                            <GradientStop Offset="0.273" Color="#33000000" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <TextBlock Text="MusicDays" Margin="120,120,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="48" FontFamily="/Assets/Lobster.otf#Lobster 1.4"></TextBlock>
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="120,0,0,150" Tapped="OnAlbumMisEnAvantTapped">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="{Binding AlbumMisEnAvant.AlbumImageUri}" />
+                    <StackPanel Grid.Column="1" Margin="40,0,40,0">
+                        <TextBlock Text="Découvrez " FontSize="24"></TextBlock>
+                        <TextBlock Text="{Binding AlbumMisEnAvant.Titre}" FontFamily="Segoe UI Semibold" FontWeight="SemiBold" CharacterSpacing="-40" FontSize="60" />
+                        <TextBlock FontSize="24" TextWrapping="WrapWholeWords" Text="Le dernier album de " />
+                        <TextBlock FontSize="24" TextWrapping="WrapWholeWords" Text="{Binding AlbumMisEnAvant.Artiste.Nom}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <Grid Width="400" Margin="100,120,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Recommandés pour vous" FontWeight="SemiLight" FontSize="36" FontFamily="/Assets/Lobster.otf#Lobster 1.4" />
+                <ListView Grid.Row="1" ItemsSource="{Binding RecommandesPourVousList}" SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="#33000000" Tapped="OnTopEcoutesAlbumTapped">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="300" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{Binding AlbumImageUri}" />
+                                <TextBlock Grid.Column="1" Text="{Binding Position}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0" FontSize="36" Foreground="#668000FF" />
+                                <StackPanel Grid.Column="1" Margin="20">
+                                    <TextBlock Text="{Binding Titre}" FontSize="24" TextWrapping="Wrap"></TextBlock>
+                                    <TextBlock Text="{Binding Artiste.Nom}" FontSize="18"></TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Grid Margin="100,120,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Top écoutes" FontWeight="SemiLight" FontSize="36" Margin="0,0,0,10" FontFamily="/Assets/Lobster.otf#Lobster 1.4" />
+                <ListView Grid.Row="1" ItemsSource="{Binding TopEcoutes}" SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="200" Width="400" Tapped="OnTopEcoutesAlbumTapped">
+                                <Image Stretch="UniformToFill" Source="{Binding AlbumImageUri}" />
+                                <Rectangle>
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#B2000000" Offset="1" />
+                                            <GradientStop Offset="0.6" Color="#33000000" />
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Grid VerticalAlignment="Bottom" Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="40" Height="40" BorderBrush="Gray" BorderThickness="2" Background="SlateGray">
+                                        <Image Source="{Binding Artiste.ArtisteImageUri}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="10,-5">
+                                        <TextBlock Text="{Binding Titre}" FontSize="24" FontWeight="SemiBold" TextWrapping="Wrap"></TextBlock>
+                                        <TextBlock Text="{Binding Artiste.Nom}" FontSize="18"></TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock Grid.Column="1" Text="{Binding Position}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0" FontSize="36" Foreground="#668000FF" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Grid Width="500" Margin="100,120,100,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Vos dernières découvertes" FontWeight="SemiLight" FontSize="36" Margin="0,0,0,10" FontFamily="/Assets/Lobster.otf#Lobster 1.4" />
+                <ListView Grid.Row="1" ItemsSource="{Binding DecouvertesRecentes}" SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="#33000000" Tapped="OnTopEcoutesAlbumTapped">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="300" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{Binding AlbumImageUri}" />
+                                <StackPanel Grid.Column="1" Margin="20">
+                                    <TextBlock Text="{Binding Titre}" FontSize="24" TextWrapping="Wrap"></TextBlock>
+                                    <TextBlock Text="{Binding Artiste.Nom}" FontSize="18"></TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
